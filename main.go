@@ -7,5 +7,5 @@ func main() {
 }
 
 func Greet(entity string) string {
-	return fmt.Sprintf("Hello, %s!", entity)
+	return fmt.Sprintf("Hello %s!", entity)
 }
