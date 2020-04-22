@@ -1,11 +1,14 @@
 package main
 
-import "fmt"
+import "github.com/AHDesigns/blogui/server"
 
 func main() {
-	fmt.Println(Greet("Blog"))
-}
-
-func Greet(entity string) string {
-	return fmt.Sprintf("Hello, %s!", entity)
+	r := server.Create()
+	server.SetupFileHandler(r)
+	server.SetupRoutes(r)
+	r.RunTLS(
+		":8080",
+		"./certs/localhost.pem",
+		"./certs/localhost-key.pem",
+	)
 }

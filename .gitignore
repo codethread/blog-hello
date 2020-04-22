@@ -16,3 +16,10 @@
 
 # this binary
 blog-hello
+
+# air output
+tmp
+
+
+# local certs only, but just playing safe for now
+certs/
