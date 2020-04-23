@@ -15,11 +15,7 @@
 # vendor/
 
 # this binary
-blog-hello
+blogui
 
 # air output
 tmp
-
-
-# local certs only, but just playing safe for now
-certs/
