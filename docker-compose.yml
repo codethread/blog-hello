@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  app:
+    command: air
+    build:
+      context: .
+      target: dev
+    ports:
+      - 443:443
+    volumes:
+      # This is go modules cache, without it you will have to
+      # re-download all dependencies after restarting container
+      - modules:/go/pkg/mod/cache
+      - ./:/app:cached
+    working_dir: /app
+    
+
+volumes:
+  modules:
+    driver: local

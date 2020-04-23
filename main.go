@@ -10,7 +10,7 @@ func main() {
 	server.SetupFileHandler(r)
 	server.SetupRoutes(r)
 	if err := r.RunTLS(
-		":8080",
+		":443",
 		"./certs/localhost.pem",
 		"./certs/localhost-key.pem",
 	); err != nil {
