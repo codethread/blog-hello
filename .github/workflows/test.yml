@@ -11,11 +11,11 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-    - name: Start
-      run: echo "hi"
-
     - name: Checkout
       uses: actions/checkout@v2
+
+    - name: Start
+      run: echo "hi"
 
     - name: Build
       run: DOCKER_BUILDKIT=1 docker build -t blog-ui --target test .
