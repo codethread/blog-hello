@@ -11,6 +11,9 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
+    - name: Start
+      run: echo "hi"
+
     - name: Checkout
       uses: actions/checkout@v2
 
