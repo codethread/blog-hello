@@ -9,18 +9,12 @@ func main() {
 	r := server.Create()
 	server.SetupFileHandler(r)
 	server.SetupRoutes(r)
-	r.RunTLS(
+	if err := r.RunTLS(
 		":443",
 		"./certs/localhost.pem",
 		"./certs/localhost-key.pem",
-	)
+	); err != nil {
+		fmt.Printf("failed to start server: %s", err)
 
-	// if err := r.RunTLS(
-	// 	":443",
-	// 	"./certs/localhost.pem",
-	// 	"./certs/localhost-key.pem",
-	// ); err != nil {
-	// 	fmt.Printf("failed to start server: %s", err)
-
-	// }
+	}
 }

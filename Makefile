@@ -18,6 +18,9 @@ race: dep ## Run data race detector
 msan: dep ## Run memory sanitizer
 	@go test -msan -short ${PKG_LIST}
 
+format: dep ## Use go formatter to align style
+	@go fmt
+
 dep: ## Get the dependencies
 	@go mod download
 
@@ -26,6 +29,8 @@ build: dep ## Build the binary file
 
 dev: dep ## Run the app in watch mode
 	@air
+
+checks: dep format lint test ## Run all checks
 
 help: ## Display this help screen
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
