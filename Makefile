@@ -27,14 +27,5 @@ build: dep ## Build the binary file
 dev: dep ## Run the app in watch mode
 	@air
 
-docker-build-test: ## Build a docker image
-	@DOCKER_BUILDKIT=1 docker build -t blog-ui --target test .
-
-docker-test: ## Run tests inside docker
-	@docker run blog-ui:latest go test ./...
-
-docker-lint: ## Run linter inside docker
-	@docker run blog-ui:latest golangci-lint run
-
 help: ## Display this help screen
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
