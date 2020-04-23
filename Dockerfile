@@ -12,9 +12,12 @@ COPY tools.go $APP_HOME
 RUN go mod download
 RUN cat tools.go | grep _ | awk -F'"' '{print $2}' | xargs -tI % go install %
 
-FROM base as build
+FROM dev as test
+# copy in src so we can run tests and lint etc
 COPY ./ $APP_HOME
 
+FROM base as build
+COPY ./ $APP_HOME
 RUN go build -o bin
 
 FROM base as prod
