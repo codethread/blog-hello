@@ -8,12 +8,18 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - name: Install Go
-      uses: actions/setup-go@v1
+
     - name: Checkout code
       uses: actions/checkout@v2
+
+    - name: Build
+      run: DOCKER_BUILDKIT=1 docker build -t blog-ui --target test .
+
+    - name: Lint
+      run: docker run blog-ui:latest golangci-lint run
+
     - name: Test
-      run: go test ./...
+      run: docker run blog-ui:latest go test ./...
 
 # jobs:
 #   test:
