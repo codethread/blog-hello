@@ -30,5 +30,8 @@ jobs:
             dep ensure
         fi
 
+    - name: Lint
+      run: golangci-lint run
+
     - name: Test
       run: go test -v ./...

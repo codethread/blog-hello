@@ -9,15 +9,18 @@ import (
 
 const assetDir = "/assets"
 
+// Create a Server
 func Create() *gin.Engine {
 	return gin.Default()
-};
+}
 
+// SetupFileHandler adds static file handling to server
 func SetupFileHandler(r *gin.Engine) {
 	r.LoadHTMLGlob("templates/*")
 	r.Static(assetDir, "./assets")
 }
 
+// SetupRoutes mount routes on an server
 func SetupRoutes(r *gin.Engine) {
 	r.GET("/", viewHome)
 	r.GET("/api/__healthcheck", healthCheck)

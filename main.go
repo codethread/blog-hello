@@ -1,14 +1,20 @@
 package main
 
-import "github.com/AHDesigns/blogui/server"
+import (
+	"fmt"
+	"github.com/AHDesigns/blogui/server"
+)
 
 func main() {
 	r := server.Create()
 	server.SetupFileHandler(r)
 	server.SetupRoutes(r)
-	r.RunTLS(
+	if err := r.RunTLS(
 		":8080",
 		"./certs/localhost.pem",
 		"./certs/localhost-key.pem",
-	)
+	); err != nil {
+		fmt.Printf("failed to start server: %s", err)
+
+	}
 }
