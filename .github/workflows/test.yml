@@ -5,9 +5,10 @@ on:
     branches: [ master ]
 name: Test
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
+
     - name: Checkout code
       uses: actions/checkout@v2
 
@@ -16,14 +17,13 @@ jobs:
       env:
         DOCKER_BUILDKIT: 1
 
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - run: docker run blog-ui:latest go test ./...
+    - name: Lint
+      run: docker run blog-ui:latest golangci-lint run
 
-  lint:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - run: docker run blog-ui:latest golangci-lint run
+    - name: Test
+      run: docker run blog-ui:latest go test ./...
+
+    - name: Build
+      run: docker build -t blog-ui --target prod .
+      env:
+        DOCKER_BUILDKIT: 1
