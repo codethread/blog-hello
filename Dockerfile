@@ -17,6 +17,10 @@ FROM dev as test
 COPY ./ $APP_HOME
 
 FROM base as build
+# dropped these in to cache mod download
+COPY go.mod $APP_HOME
+COPY go.sum $APP_HOME
+RUN go mod download
 COPY ./ $APP_HOME
 RUN go build -o bin
 

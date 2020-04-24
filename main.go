@@ -14,7 +14,7 @@ func main() {
 		"./certs/localhost.pem",
 		"./certs/localhost-key.pem",
 	); err != nil {
-		fmt.Printf("failed to start server: %s", err)
+		fmt.Printf("Failed to start server: err\n %s", err)
 
 	}
 }

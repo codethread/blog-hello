@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: blog-ui-lb
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 443 # port to expose to the world
+    protocol: TCP
+    targetPort: 443 # port our pod has open
+  selector:
+    app: blog-ui
