@@ -9,7 +9,10 @@ steps:
     args: [
                 'build',
                 '-t', 'gcr.io/$PROJECT_ID/blog-ui:latest',
+                '--target', 'prod',
                 '--cache-from', 'gcr.io/$PROJECT_ID/blog-ui:latest',
                 '.'
           ]
+    env:
+    - 'DOCKER_BUILDKIT=1'
 images: ['gcr.io/$PROJECT_ID/blog-ui:latest']
