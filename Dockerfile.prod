@@ -1,0 +1,16 @@
+FROM golang:1.14 as base
+
+ENV APP_HOME=/app
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME
+COPY ./ $APP_HOME
+RUN go build -o bin
+
+FROM base as prod
+
+COPY --from=base $APP_HOME/assets ./assets
+COPY --from=base $APP_HOME/templates ./templates
+COPY --from=base $APP_HOME/certs ./certs
+COPY --from=base $APP_HOME/bin .
+
+CMD ./bin
