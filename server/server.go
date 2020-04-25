@@ -37,7 +37,7 @@ func viewHome(c *gin.Context) {
 		}
 	}
 	c.HTML(http.StatusOK, "index.html", gin.H{
-		"title": "Blog",
+		"title": "Gin",
 	})
 }
 
