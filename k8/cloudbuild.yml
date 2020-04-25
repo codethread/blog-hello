@@ -1,4 +1,5 @@
 steps:
+
   # pull last image to benifit from cache
   - name: 'gcr.io/cloud-builders/docker'
     entrypoint: 'bash'
@@ -12,20 +13,21 @@ steps:
     args: [
         'build',
         '-f', './Dockerfile.prod',
-        '-t', 'gcr.io/$PROJECT_ID/blog-ui:latest',
+        '-t', 'gcr.io/$PROJECT_ID/blog-ui:$COMMIT_SHA',
         '--cache-from', 'gcr.io/$PROJECT_ID/blog-ui:latest',
         '.'
     ]
 
     # might need this
-  # - name: 'gcr.io/cloud-builders/docker'
-  #   args: ['push', 'gcr.io/my-project/my-image']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/blog-ui:$COMMIT_SHA']
 
   - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['set', 'image', 'deployment/blog-ui', 'blog-ui=gcr.io/$PROJECT_ID/blog-ui:latest']
+    args: ['set', 'image', 'deployment/blog-ui', 'blog-ui=gcr.io/$PROJECT_ID/blog-ui:$COMMIT_SHA']
     env:
     - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
     - 'CLOUDSDK_CONTAINER_CLUSTER=blog-cluster-europe-west'
 
 # push the created image with the following tags
-images: ['gcr.io/$PROJECT_ID/blog-ui:latest']
+tags: ['latest', '$COMMIT_SHA']
+images: ['gcr.io/$PROJECT_ID/blog-ui']
