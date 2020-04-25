@@ -44,5 +44,6 @@ func viewHome(c *gin.Context) {
 func healthCheck(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"health": "Ok",
+		"commit": "something",
 	})
 }
