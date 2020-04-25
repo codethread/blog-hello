@@ -18,11 +18,11 @@ steps:
     ]
 
     # might need this
-  #   - name: 'gcr.io/cloud-builders/docker'
-  # args: ['push', 'gcr.io/my-project/my-image']
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   args: ['push', 'gcr.io/my-project/my-image']
 
   - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['set', 'image', 'deployment/blog-ui', 'blog-ui=gcr.io/my-project/my-image']
+    args: ['set', 'image', 'deployment/blog-ui', 'blog-ui=gcr.io/$PROJECT_ID/blog-ui:latest']
     env:
     - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
     - 'CLOUDSDK_CONTAINER_CLUSTER=blog-cluster-europe-west'
