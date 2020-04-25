@@ -7,6 +7,7 @@ import (
 
 func main() {
 	r := server.Create()
+
 	server.SetupFileHandler(r)
 	server.SetupRoutes(r)
 	if err := r.RunTLS(
