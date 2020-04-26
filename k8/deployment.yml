@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-ui
+spec:
+  selector:
+    matchLabels:
+      app: blog-ui
+  replicas: 2
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: blog-ui
+    spec:
+      containers:
+        - image: eu.gcr.io/my-blog-275207/blog-ui:master
+          name: blog-ui
+          ports:
+            - containerPort: 443

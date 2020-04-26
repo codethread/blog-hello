@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: blog-ui
+  labels:
+    app: blog-ui
+spec:
+  containers:
+    - image: eu.gcr.io/my-blog-275207/blog-ui:master
+      name: blog-ui
+      ports:
+        - containerPort: 443

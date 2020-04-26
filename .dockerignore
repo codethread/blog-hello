@@ -1,0 +1,10 @@
+*
+!.air.conf
+!go.mod
+!go.sum
+!tools.go
+!main.go
+!server/
+!assets/
+!certs/
+!templates/

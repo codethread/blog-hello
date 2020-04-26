@@ -15,4 +15,7 @@
 # vendor/
 
 # this binary
-blog-hello
+blogui
+
+# air output
+tmp

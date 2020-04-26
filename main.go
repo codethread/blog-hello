@@ -1,11 +1,20 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/AHDesigns/blogui/server"
+)
 
 func main() {
-	fmt.Println(Greet("Blog"))
-}
+	r := server.Create()
+	server.SetupFileHandler(r)
+	server.SetupRoutes(r)
+	if err := r.RunTLS(
+		":443",
+		"./certs/localhost.pem",
+		"./certs/localhost-key.pem",
+	); err != nil {
+		fmt.Printf("Failed to start server: err\n %s", err)
 
-func Greet(entity string) string {
-	return fmt.Sprintf("Hello, %s!", entity)
+	}
 }

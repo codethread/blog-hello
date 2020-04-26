@@ -1,0 +1,15 @@
+name: 'Build Docker'
+description: 'Build a multistage docker image with a target'
+inputs:
+  target:  # id of input
+    description: 'target to build'
+    required: true
+    default: 'prod'
+runs:
+  env:
+    DOCKER_BUILDKIT: 1
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - --target
+    - ${{ inputs.target }}
