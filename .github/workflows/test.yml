@@ -37,7 +37,7 @@ jobs:
         docker pull "gcr.io/$PROJECT_ID/$IMAGE:latest" || exit 0
 
     - name: Build-test
-      run: docker build -t blog-ui --target test .
+      run: docker build -t blog-ui --target test --cache-from "gcr.io/$PROJECT_ID/$IMAGE:latest" .
 
     - name: Lint
       run: docker run blog-ui:latest golangci-lint run
