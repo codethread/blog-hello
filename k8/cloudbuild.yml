@@ -7,7 +7,7 @@ steps:
     args:
     - '-c'
     - |
-      docker pull gcr.io/$PROJECT_ID/blog-ui-test:latest || exit 0
+      docker pull gcr.io/$PROJECT_ID/blog-ui:latest || exit 0
 
   # Docker build, but target test
   - name: 'gcr.io/cloud-builders/docker'
@@ -62,5 +62,5 @@ steps:
 
 # push the created image with the following tags
 tags: ['latest', '$COMMIT_SHA']
-images: ['gcr.io/$PROJECT_ID/blog-ui', 'gcr.io/$PROJECT_ID/blog-ui-test']
+images: ['gcr.io/$PROJECT_ID/blog-ui']
 
