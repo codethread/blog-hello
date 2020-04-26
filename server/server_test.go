@@ -18,5 +18,5 @@ func TestHealthRoute(t *testing.T) {
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, 200, w.Code)
-	assert.Equal(t, "{\"health\":\"Ok\"}", w.Body.String())
+	assert.Equal(t, "{\"commit\":\"something\",\"health\":\"Ok\"}", w.Body.String())
 }
