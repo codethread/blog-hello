@@ -8,18 +8,47 @@ steps:
     - |
       docker pull gcr.io/$PROJECT_ID/blog-ui:latest || exit 0
 
-  # run the docker build command
+  # Docker build, but target test
   - name: 'gcr.io/cloud-builders/docker'
+    id: 'build-for-test'
     args: [
         'build',
-        '-f', './Dockerfile.prod',
-        '-t', 'gcr.io/$PROJECT_ID/blog-ui:$COMMIT_SHA',
+        '-f', './Dockerfile',
+        '-t', 'gcr.io/$PROJECT_ID/blog-ui-test:$COMMIT_SHA',
+        '--target', 'test',
         '--cache-from', 'gcr.io/$PROJECT_ID/blog-ui:latest',
         '.'
     ]
 
+  # Docker build production image, using test image as cache
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build-for-prod'
+    waitFor: ['build-for-test']
+    args: [
+        'build',
+        '-f', './Dockerfile',
+        '-t', 'gcr.io/$PROJECT_ID/blog-ui:$COMMIT_SHA',
+        '--cache-from', 'gcr.io/$PROJECT_ID/blog-ui-test:$COMMIT_SHA',
+        '.'
+    ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'lint'
+    waitFor: ['build-for-test']
+    args: [
+    'run', 'gcr.io/$PROJECT_ID/blog-ui-test:$COMMIT_SHA', 'golangci-lint', 'run'
+    ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'test'
+    waitFor: ['build-for-test']
+    args: [
+    'run', 'gcr.io/$PROJECT_ID/blog-ui-test:$COMMIT_SHA', 'go', 'test', './...'
+    ]
+
     # might need this
   - name: 'gcr.io/cloud-builders/docker'
+    waitFor: ['test', 'lint']
     args: ['push', 'gcr.io/$PROJECT_ID/blog-ui:$COMMIT_SHA']
 
   - name: 'gcr.io/cloud-builders/kubectl'
