@@ -2,11 +2,12 @@ steps:
 
   # pull last image to benifit from cache
   - name: 'gcr.io/cloud-builders/docker'
+    id: 'load cached images'
     entrypoint: 'bash'
     args:
     - '-c'
     - |
-      docker pull gcr.io/$PROJECT_ID/blog-ui:latest || exit 0
+      docker pull gcr.io/$PROJECT_ID/blog-ui-test:latest || exit 0
 
   # Docker build, but target test
   - name: 'gcr.io/cloud-builders/docker'
@@ -48,10 +49,12 @@ steps:
 
     # might need this
   - name: 'gcr.io/cloud-builders/docker'
+    id: ['push docker image']
     waitFor: ['test', 'lint']
     args: ['push', 'gcr.io/$PROJECT_ID/blog-ui:$COMMIT_SHA']
 
   - name: 'gcr.io/cloud-builders/kubectl'
+    id: ['trigger environment update']
     args: ['set', 'image', 'deployment/blog-ui', 'blog-ui=gcr.io/$PROJECT_ID/blog-ui:$COMMIT_SHA']
     env:
     - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
@@ -59,4 +62,4 @@ steps:
 
 # push the created image with the following tags
 tags: ['latest', '$COMMIT_SHA']
-images: ['gcr.io/$PROJECT_ID/blog-ui']
+images: ['gcr.io/$PROJECT_ID/blog-ui', 'gcr.io/$PROJECT_ID/blog-ui-test']
