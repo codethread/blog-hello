@@ -62,4 +62,4 @@ steps:
 
 # push the created image with the following tags
 tags: ['latest', '$COMMIT_SHA']
-images: ['gcr.io/$PROJECT_ID/blog-ui', 'gcr.io/$PROJECT_ID/blog-ui-test']
+images: ['gcr.io/$PROJECT_ID/blog-ui']
